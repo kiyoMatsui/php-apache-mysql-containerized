@@ -33,14 +33,13 @@ services:
     ports:
       - "9997:3306"
     volumes:
-      - ${DB_PATH}/data:/var/lib/mysql
-      - ${DB_PATH}/config:/etc/mysql/conf.d
-      - ${DB_PATH}/sqlinit:/docker-entrypoint-initdb.d
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/config:/etc/mysql/conf.d
+      - ./mysql/sqlinit:/docker-entrypoint-initdb.d
     networks:
       - backend
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USERNAME}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
     container_name: mysql
