@@ -23,26 +23,27 @@ services:
       - backend
     ports:
       - "8080:80"
+      - "443:443"
     volumes:
       - ${STATIC_FILES}:/usr/local/apache2/htdocs/
     container_name: apache
   db:
-    image: mysql:${MYSQL_VERSION:-latest}
+    image: mariadb:latest
     command: --default-authentication-plugin=mysql_native_password
-#    restart: always
+    restart: always
     ports:
       - "9997:3306"
     volumes:
-      - ./mysql/data:/var/lib/mysql
-      - ./mysql/config:/etc/mysql/conf.d
-      - ./mysql/sqlinit:/docker-entrypoint-initdb.d
+      - ./mariadb/data:/var/lib/mysql
+      - ./mariadb/config:/etc/mysql/conf.d
+      - ./mariadb/sqlinit:/docker-entrypoint-initdb.d
     networks:
       - backend
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
       MYSQL_USER: "${DB_USERNAME}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
-    container_name: mysql
+    container_name: mariadb
   adminer:
     image: adminer
 #    restart: always
